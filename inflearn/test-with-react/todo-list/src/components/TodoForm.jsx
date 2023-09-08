@@ -20,6 +20,7 @@ export default function TodoForm({ setTodoList }) {
   function todoHandler(e) {
     e.preventDefault();
     if (value === "") return;
+    console.log("호출");
     const newTodo = new TodoObject(value);
     setTodoList(newTodo);
     setValue("");
@@ -41,7 +42,7 @@ export default function TodoForm({ setTodoList }) {
         ref={inputRef}
       />
       <button
-        type="button"
+        type="submit"
         name="submit-todo-button"
         onClick={(e) => {
           todoHandler(e);
