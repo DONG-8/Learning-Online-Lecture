@@ -20,7 +20,7 @@ export default function TodoForm({ setTodoList }) {
   function todoHandler(e) {
     e.preventDefault();
     if (value === "") return;
-    console.log("호출");
+    // console.log("호출");
     const newTodo = new TodoObject(value);
     setTodoList(newTodo);
     setValue("");

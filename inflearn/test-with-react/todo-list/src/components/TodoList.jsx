@@ -7,7 +7,7 @@ export default function TodoList({ tabState, data, setData }) {
       if (v.idx === idx) {
         return { ...v, check: !v.check };
       }
-      return { ...v };
+      return v;
     });
     setData(newData);
   }
@@ -34,6 +34,7 @@ export default function TodoList({ tabState, data, setData }) {
         return v;
       }
     });
+
     return filterData.map((todoItemData, idx) => {
       return (
         <TodoItem

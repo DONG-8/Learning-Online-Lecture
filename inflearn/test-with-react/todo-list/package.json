@@ -35,5 +35,8 @@
   "devDependencies": {
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-testing-library": "^5.11.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

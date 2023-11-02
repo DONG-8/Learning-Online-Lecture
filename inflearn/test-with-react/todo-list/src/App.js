@@ -1,18 +1,16 @@
 import "./App.css";
 import TodoForm from "./components/TodoForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoWrapper from "./components/TodoWrapper";
 import TodoTab from "./components/TodoTab";
 import TodoList from "./components/TodoList";
+// import axios from "axios";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [tabState, setTabState] = useState("todo");
-  // const [data, setData] = useState([
-  //   { todo: "할일하기", check: false, favorit: false, idx: 0 },
-  //   { todo: "테스트 공부하기", check: true, favorit: true, idx: 1 },
-  //   { todo: "운동 1시간 하기", check: false, favorit: true, idx: 2 },
-  // ]);
+  const [errState, setErrState] = useState(false);
+  const props = { tabState, setTabState };
 
   function handleTodo(todo) {
     const idxLength = todoList.length;
@@ -20,11 +18,36 @@ function App() {
     setTodoList([...todoList, { ...todo, idx: nextIdx }]);
   }
 
-  const props = { tabState, setTabState };
+  async function loadServerTodo() {
+    try {
+      const response = await fetch("/todo");
+      const data = await response.json();
+      const post = await fetch("/add", {
+        method: "POST",
+        body: JSON.stringify(data[0]),
+      });
+      const response2 = await fetch("/todo");
+      const data2 = await response.json();
+      console.log(data2);
+      setTodoList(data);
+    } catch {
+      setErrState(true);
+    }
+  }
+
+  useEffect(() => {
+    loadServerTodo();
+    console.log("렌더링");
+  }, []);
+
   return (
     <TodoWrapper>
       <TodoTab {...props} />
-      <TodoList tabState={tabState} data={todoList} setData={setTodoList} />
+      {todoList ? (
+        <TodoList tabState={tabState} data={todoList} setData={setTodoList} />
+      ) : (
+        <>loading</>
+      )}
       <TodoForm setTodoList={handleTodo} />
     </TodoWrapper>
   );
